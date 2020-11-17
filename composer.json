@@ -1,0 +1,30 @@
+{
+  "name": "jncinet/qihucms-user-address",
+  "description": "qihucms user address.",
+  "keywords": [
+    "laravel",
+    "qihucms",
+    "address"
+  ],
+  "homepage": "https://www.qihucms.com",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zhangye",
+      "email": "y@qilephp.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Qihucms\\UserAddress\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Qihucms\\UserAddress\\AddressServiceProvider"
+      ]
+    }
+  }
+}
