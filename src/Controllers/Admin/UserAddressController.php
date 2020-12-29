@@ -90,7 +90,7 @@ class UserAddressController extends Controller
                     return [$model->id => $model->username];
                 }
             })
-            ->ajax(route('admin.api.users'))
+            ->ajax(route('admin.select.user'))
             ->rules('required');
 
         $form->text('uri', __('user-address::address.uri'));

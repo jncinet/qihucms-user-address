@@ -76,7 +76,7 @@ int          $limit   （选填）每页显示的条数
 #### 更新地址
 
 ```php
-请求：PAUTH|PUT
+请求：PATCH|PUT
 地址：/user/addresses/{id}
 参数：
 {
