@@ -25,7 +25,7 @@ class AddressServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../routes.php');
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         }
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'user-address');
