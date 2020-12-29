@@ -2,14 +2,15 @@
 
 namespace Qihucms\UserAddress\Controllers\Api;
 
-use App\Http\Controllers\Api\ApiController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Qihucms\UserAddress\Models\UserAddress;
 use Qihucms\UserAddress\Resources\UserAddress as UserAddressResource;
 use Qihucms\UserAddress\Resources\UserAddressCollection;
 use Qihucms\UserAddress\Requests\StoreRequest;
 
-class UserAddressController extends ApiController
+class UserAddressController extends Controller
 {
     public function __construct()
     {
@@ -26,7 +27,7 @@ class UserAddressController extends ApiController
     {
         $limit = $request->get('limit', 15);
 
-        $result = UserAddress::where('user_id', \Auth::id())->latest()->paginate($limit);
+        $result = UserAddress::where('user_id', Auth::id())->latest()->paginate($limit);
 
         return new UserAddressCollection($result);
     }
@@ -40,7 +41,7 @@ class UserAddressController extends ApiController
     public function store(StoreRequest $request)
     {
         $data = $request->only(['uri', 'name', 'phone', 'address']);
-        $data['user_id'] = \Auth::id();
+        $data['user_id'] = Auth::id();
 
         $result = UserAddress::create($data);
 
@@ -48,7 +49,7 @@ class UserAddressController extends ApiController
             return new UserAddressResource($result);
         }
 
-        return $this->jsonResponse(['添加失败'], '', 422);
+        return $this->jsonResponse([__('user-address::message.create_fail')], '', 422);
     }
 
     /**
@@ -65,7 +66,8 @@ class UserAddressController extends ApiController
             return new UserAddressResource($result);
         }
 
-        return $this->jsonResponse(['地址不存在'], '', 422);
+        return $this->jsonResponse(
+            [__('user-address::message.address_does_not_exist')], '', 422);
     }
 
     /**
@@ -80,13 +82,13 @@ class UserAddressController extends ApiController
         $data = $request->only(['uri', 'name', 'phone', 'address']);
         $data['updated_at'] = now();
 
-        $result = UserAddress::where('user_id', \Auth::id())->where('id', $id)->update($data);
+        $result = UserAddress::where('user_id', Auth::id())->where('id', $id)->update($data);
 
         if ($result) {
             return $this->jsonResponse(['id' => $id]);
         }
 
-        return $this->jsonResponse(['更新失败'], '', 422);
+        return $this->jsonResponse([__('user-address::message.update_fail')], '', 422);
     }
 
     /**
@@ -97,10 +99,10 @@ class UserAddressController extends ApiController
      */
     public function destroy($id)
     {
-        if (UserAddress::where('user_id', \Auth::id())->where('id', $id)->delete()) {
+        if (UserAddress::where('user_id', Auth::id())->where('id', $id)->delete()) {
             return $this->jsonResponse(['id' => $id]);
         }
 
-        return $this->jsonResponse(['删除失败'], '', 422);
+        return $this->jsonResponse([__('user-address::message.delete_fail')], '', 422);
     }
 }
